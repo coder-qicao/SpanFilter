@@ -122,17 +122,17 @@ for (new_image_path, new_target_image_path) in test_images:
     result_image_u8 = img_as_ubyte(result_image)
 
     img_name = new_image_path.split('/')[-1].split('.')[0]
-    io.imsave(f'results/PCA_SR/result_{img_name}_lr_color.png', result_image_u8)
+    io.imsave(f'results/SR_PCA/result_{img_name}_lr_color.png', result_image_u8)
     print(f"Result saved as results/result_{img_name}_lr_color.png")
 
     # 输出F1和F2加权结果
     result_image_f1 = np.stack([F1_R_new, F1_G_new, F1_B_new], axis=-1)
     result_image_f1 = np.clip(result_image_f1, 0, 1)
-    io.imsave(f'results/PCA_SR/result_{img_name}_f1_color.png', img_as_ubyte(result_image_f1))
+    io.imsave(f'results/SR_PCA/result_{img_name}_f1_color.png', img_as_ubyte(result_image_f1))
 
     result_image_f2 = np.stack([F2_R_new, F2_G_new, F2_B_new], axis=-1)
     result_image_f2 = np.clip(result_image_f2, 0, 1)
-    io.imsave(f'results/PCA_SR/result_{img_name}_f2_color.png', img_as_ubyte(result_image_f2))
+    io.imsave(f'results/SR_PCA/result_{img_name}_f2_color.png', img_as_ubyte(result_image_f2))
 
     # 对结果进行评估（假设 metrics_images 返回 (psnr, ssim)）
     mse, psnr, ssim = metrics_images(result_image, new_target_image)
