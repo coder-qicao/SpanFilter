@@ -8,8 +8,8 @@ import os
 
 # 假设训练集中有多张彩色图像（格式可为jpg、png等）
 # 训练图像（LR和对应的GT（HR）图像路径）
-noisy_image_path = "noise_img/baby.png"
-clear_image_path = "Set5/LRbicx3/baby.png"  # Ground Truth 高分辨率图像，用于监督信号
+noisy_image_path = "dataset/noise_img/baby.png"
+clear_image_path = "dataset/Set5/LRbicx3/baby.png"  # Ground Truth 高分辨率图像，用于监督信号
 # filters
 F1 = denoise_BM3D
 F2 = denoise_median
@@ -87,9 +87,9 @@ print("B channel weights:", w1_B, w2_B, "bias:", b_B)
 # 对新图像进行处理（这里使用同一张图作为新图像，也可换其他LR图像）
 
 # 定义要进行测试的图像列表
-input_folder_path = "noise14/"
+input_folder_path = "dataset/noise14/"
 input_files = os.listdir(input_folder_path)
-gt_folder_path = "Set14/Set14/image_SRF_3/LR/"
+gt_folder_path = "dataset/Set14/Set14/image_SRF_3/LR/"
 gt_input_files = os.listdir(gt_folder_path)
 test_images = list(zip(input_files, gt_input_files))
 
@@ -138,17 +138,17 @@ for (new_image_path, new_target_image_path) in test_images:
     result_image_u8 = img_as_ubyte(result_image)
 
     img_name = new_image_path.split('/')[-1].split('.')[0]
-    io.imsave(f'results/result_{img_name}_lr_color.png', result_image_u8)
+    io.imsave(f'results/denoise_LR/result_{img_name}_lr_color.png', result_image_u8)
     print(f"Result saved as results/result_{img_name}_lr_color.png")
 
     # 输出F1和F2加权结果
     result_image_f1 = np.stack([F1_R_new, F1_G_new, F1_B_new], axis=-1)
     result_image_f1 = np.clip(result_image_f1, 0, 1)
-    io.imsave(f'results/result_{img_name}_f1_color.png', img_as_ubyte(result_image_f1))
+    io.imsave(f'results/denoise_LR/result_{img_name}_f1_color.png', img_as_ubyte(result_image_f1))
 
     result_image_f2 = np.stack([F2_R_new, F2_G_new, F2_B_new], axis=-1)
     result_image_f2 = np.clip(result_image_f2, 0, 1)
-    io.imsave(f'results/result_{img_name}_f2_color.png', img_as_ubyte(result_image_f2))
+    io.imsave(f'results/denoise_LR/result_{img_name}_f2_color.png', img_as_ubyte(result_image_f2))
 
     # 对结果进行评估（假设 metrics_images 返回 (psnr, ssim)）
     mse, psnr, ssim = metrics_images(result_image, new_target_image)
