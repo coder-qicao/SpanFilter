@@ -12,9 +12,6 @@ import os
 # 训练图像（LR和对应的GT（HR）图像路径）
 noisy_image_path = "noise_img/baby.png"
 clear_image_path = "Set5/LRbicx2/baby.png"  # Ground Truth 高分辨率图像，用于监督信号
-# 测试图像
-new_image_path = "Set5/LRbicx2/baby.png"
-new_target_image_path = "Set5/GTmod12/baby.png"
 # filters
 F1 = denoise_BM3D
 F2 = denoise_median
